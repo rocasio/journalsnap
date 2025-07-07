@@ -1,0 +1,41 @@
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+
+# Environment files
+.env
+.env.*                # ignore any other local env variants
+
+# Local config files
+*.local
+
+# Editor directories and files
+.vscode/
+!.vscode/extensions.json   # keep your VS Code recommended extensions
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# macOS files
+.DS_Store
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# Misc
+*.bak
+*.tmp
