@@ -57,24 +57,28 @@
   Express proxy will run on http://localhost:3000
 5. **Open your browser and start pasting notes!**
 
+---
+
 ## 📂 Project Structure
 journalsnap/
-├─ public/                 # Static assets & index.html
-├─ src/
-│  ├─ components/
-│  │  ├─ InputArea.jsx     # Note input & “Summarize” button
-│  │  └─ SummaryBox.jsx    # Displays AI summary + actions
-│  ├─ globals.css          # Your custom global styles
-│  ├─ index.css            # Tailwind directives
-│  ├─ App.jsx              # Main layout & logic
-│  └─ main.jsx             # React entrypoint
-├─ server.js               # Express proxy for OpenAI calls
-├─ .env.example            # Sample environment variables
-├─ .gitignore              
-├─ package.json            
-├─ tailwind.config.js      
-├─ postcss.config.js       
-└─ vite.config.js          
+- ├─ public/                  **_Static assets & index.html_**
+- ├─ src/
+- │  ├─ components/
+- │  │  ├─ InputArea.jsx     **_Note input & “Summarize” button_**
+- │  │  └─ SummaryBox.jsx    **_Displays AI summary + actions_**
+- │  ├─ globals.css          **_Your custom global styles_**
+- │  ├─ index.css            **_Tailwind directives_**
+- │  ├─ App.jsx              **_Main layout & logic_**
+- │  └─ main.jsx             **_React entrypoint_**
+- ├─ server.js               **_Express proxy for OpenAI calls_**
+- ├─ .env.example            **_Sample environment variables_**
+- ├─ .gitignore              
+- ├─ package.json            
+- ├─ tailwind.config.js      
+- ├─ postcss.config.js       
+- └─ vite.config.js          
+
+---
 
 ## 💡 Usage
 1. Paste your raw notes into the textarea.
@@ -84,16 +88,17 @@ journalsnap/
 3. Read your Summary and Action Items.
 
 **Example input:**
-John spoke about the secret project, codenamed "Project Nine". He says we will need funding before this goes ahead. Ted chimed in and noted that Company ABC is willing to fund the project, but our CEO will need to meet with them ASAP.
+> John spoke about the secret project, codenamed "Project Nine". He says we will need funding before this goes ahead. Ted chimed in and noted that Company ABC is willing to fund the project, but our CEO will need to meet with them ASAP.
 
 **Example output:**
-    Summary:
-        John announced that “Project Nine” requires funding, and Ted confirmed that Company ABC is willing to provide it.
+> Summary:
+> > John announced that “Project Nine” requires funding, and Ted confirmed that Company ABC is willing to provide it.
+        
+> Action Items:
+> > - Secure funding for Project Nine.
+> > - Schedule an ASAP meeting between CEO and Company ABC.
 
-    Action Items:
-        - Secure funding for Project Nine.
-        - Schedule an ASAP meeting between CEO and Company ABC.
-
+---
 
 ## 🔮 Future Improvements
 ✅ Persist summaries in localStorage (Phase 2)
@@ -106,6 +111,7 @@ John spoke about the secret project, codenamed "Project Nine". He says we will n
 
 🔲 Export summaries to Markdown, email, or PDF
 
+---
 
 ## 🤝 Contributing
 1. Fork the repo
@@ -116,6 +122,7 @@ John spoke about the secret project, codenamed "Project Nine". He says we will n
 
 4. Push (git push origin feature/…) and open a PR
 
+---
 
 ## 📄 License
 This project is open‑source under the **MIT License**. See [LICENSE](LICENSE) for details.
