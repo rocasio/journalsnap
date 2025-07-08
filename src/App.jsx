@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useState } from 'react';
 import InputArea from './components/InputArea';
 import SummaryBox from './components/SummaryBox';
@@ -8,7 +7,6 @@ function App() {
   const [summary, setSummary] = useState('');
   const [actions, setActions] = useState([]);
 
-  // App.jsx
 const onSummarize = async () => {
   if (!notes.trim()) return;
   setSummary('Summarizing…');
@@ -54,9 +52,9 @@ const onSummarize = async () => {
 };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      <header className="text-center py-6 bg-blue-50 dark:bg-gray-800">
-        <h1 className="text-3xl font-bold">JournalSnap</h1>
+    <div className="container">
+      <header>
+        <h1>JournalSnap</h1>
       </header>
       <main>
         <InputArea notes={notes} setNotes={setNotes} onSummarize={onSummarize} />

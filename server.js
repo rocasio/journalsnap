@@ -1,5 +1,4 @@
-// server.js
-import 'dotenv/config';      // ← loads process.env from .env
+import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
 import OpenAI from 'openai';
