@@ -105,7 +105,7 @@ journalsnap/
 
 🔲 Add user authentication & multi‑device sync (Supabase/Firebase)
 
-🔲 Polish UI/UX & responsive design
+✅ Polish UI/UX & responsive design
 
 🔲 Deploy to Vercel or Netlify with CI/CD
 

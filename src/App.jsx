@@ -7,49 +7,50 @@ function App() {
   const [summary, setSummary] = useState('');
   const [actions, setActions] = useState([]);
 
-const onSummarize = async () => {
-  if (!notes.trim()) return;
-  setSummary('Summarizing…');
-  setActions([]);
-
-  try {
-    const res = await fetch('/api/summarize', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ notes }),
-    });
-
-    // Read the body exactly once:
-    const data = await res.json();
-
-    if (!res.ok) {
-      // Handle server‑side errors gracefully
-      throw new Error(data.error?.message || 'Summarization failed');
+  const onSummarize = async () => {
+    if (!notes.trim()) return;
+    setSummary('Summarizing…');
+    setActions([]);
+  
+    try {
+      const res = await fetch('/api/summarize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notes }),
+      });
+  
+      const data = await res.json();
+  
+      if (!res.ok) {
+        throw new Error(data.error || 'Summarization failed');
+      }
+  
+      setSummary(data.summary);
+      setActions(data.actionItems);
+    } catch (err) {
+      console.error(err);
+      if (err.message.toLowerCase().includes('quota')) {
+        setSummary('⚠️ Usage limit reached—please check your billing.');
+      } else {
+        setSummary('❌ Error generating summary. See console.');
+      }
     }
+  };
 
-    // Extract the text from the AI
-    const text = data.choices[0].message.content.trim();
+  const [savedSummaries, setSavedSummaries] = useState([]);
+  const [showSaved, setShowSaved] = useState(false);
 
-    // Split into summary + action items
-    const [rawSummary, rawActions] = text.split(/Action Items?:/i);
-    setSummary(rawSummary.replace(/Summary:?\s*/i, '').trim());
-    setActions(
-      rawActions
-        ? rawActions
-            .split(/[\r\n]+/)
-            .map((l) => l.replace(/^[\-\d\.\)\s]+/, '').trim())
-            .filter(Boolean)
-        : []
-    );
-  } catch (err) {
-    console.error(err);
-    if (err.message.toLowerCase().includes('quota')) {
-      setSummary('⚠️ Usage limit reached—please check your billing.');
-    } else {
-      setSummary('❌ Error generating summary. See console.');
+  const fetchSavedSummaries = async () => {
+    try {
+      const res = await fetch('/summaries');
+      const data = await res.json();
+      setSavedSummaries(data.reverse()); // Newest first
+      setShowSaved(true);
+    } catch (err) {
+      console.error('Failed to load saved summaries:', err);
     }
-  }
-};
+  };
+  
 
   return (
     <div className="container">
@@ -59,6 +60,31 @@ const onSummarize = async () => {
       <main>
         <InputArea notes={notes} setNotes={setNotes} onSummarize={onSummarize} />
         <SummaryBox summary={summary} actions={actions} />
+        <button onClick={fetchSavedSummaries} style={{ marginTop: '1.5rem' }}>
+          View Saved Summaries
+        </button>
+
+        {showSaved && savedSummaries.length > 0 && (
+          <div className="saved-summaries" style={{ marginTop: '2rem', textAlign: 'left' }}>
+            <h2>Saved Summaries</h2>
+            <ul>
+              {savedSummaries.map((item, idx) => (
+                <li key={idx} style={{ marginBottom: '1.5rem' }}>
+                  <strong>{new Date(item.timestamp).toLocaleString()}</strong>
+                  <p>{item.summary}</p>
+                  {item.actionItems && item.actionItems.length > 0 && (
+                    <ul>
+                      {item.actionItems.map((ai, i) => (
+                        <li key={i}>{ai}</li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
       </main>
     </div>
   );
