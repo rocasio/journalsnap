@@ -33,7 +33,7 @@ app.get('/summaries', (req, res) => {
 
 app.post('/api/summarize', async (req, res) => {
   try {
-    const { notes } = req.body;
+    const { title, notes } = req.body;
     const response = await openai.chat.completions.create({
         model: 'gpt-3.5-turbo',
         messages: [
@@ -80,6 +80,7 @@ app.post('/api/summarize', async (req, res) => {
       res.json({ summary: summaryText, actionItems });
 
       saveSummary({
+        title: title || '',
         text: notes,
         summary: summaryText,
         actionItems
@@ -89,6 +90,24 @@ app.post('/api/summarize', async (req, res) => {
     console.error(err);
     res.status(err.status || 500).json({ error: err.message });
   }
+});
+
+app.delete('/summaries/:timestamp', (req, res) => {
+  const { timestamp } = req.params;
+
+  if (!fs.existsSync(summariesFile)) {
+    return res.status(404).json({ error: 'No summaries found.' });
+  }
+
+  const summaries = JSON.parse(fs.readFileSync(summariesFile, 'utf-8'));
+  const filtered = summaries.filter(item => item.timestamp !== timestamp);
+
+  if (filtered.length === summaries.length) {
+    return res.status(404).json({ error: 'Summary not found.' });
+  }
+
+  fs.writeFileSync(summariesFile, JSON.stringify(filtered, null, 2));
+  res.json({ success: true });
 });
 
 function saveSummary(record) {

@@ -1,4 +1,3 @@
-// src/components/SummaryBox.jsx
 import React from 'react';
 
 export default function SummaryBox({ summary, actions }) {
