@@ -261,10 +261,6 @@ button:focus-visible {
   color: #3498db;
 }
 
-.sort-controls {
-  margin-bottom: 1rem;
-}
-
 .summary-title {
   margin-bottom: 0.5rem;
 }
@@ -281,6 +277,69 @@ button:focus-visible {
 
 .export-btn:hover {
   color: #2980b9;
+}
+
+.export-all-btn {
+  background-color: #2ecc71;
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.export-all-btn:hover {
+  background-color: #27ae60;
+}
+
+.export-all-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.controls-row > * {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.export-all-btn {
+  padding: 0.5rem 1rem;
+  background-color: #27ae60;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.export-all-btn:hover {
+  background-color: #1e874b;
+}
+
+.summary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.summary-checkbox {
+  transform: scale(1.2);
+  cursor: pointer;
 }
 
 @media (prefers-color-scheme: dark) {

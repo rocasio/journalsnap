@@ -109,7 +109,7 @@ journalsnap/
 
 🔲 Deploy to Vercel or Netlify with CI/CD
 
-🔲 Export summaries to Markdown, email, or PDF
+✅ Export summaries to Markdown, email, or PDF
 
 ---
 
