@@ -14,6 +14,35 @@ function AccordionItem({ item, idx, isExpanded, onToggle, onDelete }) {
     }
   }, [isExpanded, item]);
 
+  const handleExport = (item) => {
+    const { title, timestamp, summary, actionItems } = item;
+
+    const filename = title
+      ? `${title.replace(/\s+/g, '_')}.txt`
+      : `summary_${new Date(timestamp).toISOString()}.txt`;
+
+    const lines = [
+      `Title: ${title || '(Untitled)'}`,
+      `Date: ${new Date(timestamp).toLocaleString()}`,
+      ``,
+      `Summary:`,
+      summary,
+      ``,
+      `Action Items:`,
+      ...(actionItems.length > 0 ? actionItems.map((ai, i) => `- ${ai}`) : ['(None)']),
+    ];
+
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };  
+
   return (
     <li className="summary-card">
       <div className="summary-header">
@@ -35,7 +64,17 @@ function AccordionItem({ item, idx, isExpanded, onToggle, onDelete }) {
           className="delete-btn"
           title="Delete this summary"
         >
-          🗑
+          🗑 Delete
+        </button>
+        <button
+          id="exportBtn"
+          type="button"
+          aria-label="Export summary"
+          className="export-btn"
+          title="Export this summary"
+          onClick={() => handleExport(item)}
+        >
+          📄 Export
         </button>
       </div>
       <div
@@ -49,7 +88,7 @@ function AccordionItem({ item, idx, isExpanded, onToggle, onDelete }) {
         }}
         aria-hidden={!isExpanded}
       >
-        {item.title && <h3 style={{ marginBottom: '0.5rem' }}>{item.title}</h3>}
+        {item.title && <h3 className="summary-title">{item.title}</h3>}
         <p>{item.summary}</p>
         {item.actionItems && item.actionItems.length > 0 && (
           <ul>
@@ -159,7 +198,7 @@ function App() {
         {showSaved && savedSummaries.length > 0 && (
           <div className="saved-summaries">
             <h2>Saved Summaries</h2>
-            <div style={{ marginBottom: '1rem' }}>
+            <div className="sort-controls">
               <label htmlFor="sortOrder" style={{ marginRight: '0.5rem' }}>
                 Sort by:
               </label>

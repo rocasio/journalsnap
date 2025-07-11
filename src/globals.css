@@ -261,6 +261,38 @@ button:focus-visible {
   color: #3498db;
 }
 
+.sort-controls {
+  margin-bottom: 1rem;
+}
+
+.summary-title {
+  margin-bottom: 0.5rem;
+}
+
+.export-btn {
+  margin-left: 0.5rem;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #3498db;
+  transition: color 0.2s ease;
+}
+
+.export-btn:hover {
+  color: #2980b9;
+}
+
+@media (prefers-color-scheme: dark) {
+  .export-btn {
+    color: #90caf9;
+  }
+
+  .export-btn:hover {
+    color: #64b5f6;
+  }
+}
+
 @media (max-width: 768px) {
   .container {
     align-items: center;
