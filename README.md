@@ -128,4 +128,4 @@ journalsnap/
 This project is open‑source under the **MIT License**. See [LICENSE](License.txt) for details.
 
 ## Changelog
-[View full changelog →](./CHANGELOG.md)
+[View full changelog →](./Changlog.md)
