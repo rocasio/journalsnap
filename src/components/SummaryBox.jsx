@@ -1,21 +1,27 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function SummaryBox({ summary, actions }) {
   if (!summary) return null;
   return (
-    <div className="summary">
-      <h2>Summary</h2>
+    <section className="summary" aria-live="polite" aria-labelledby="summaryHeading">
+      <h2 id="summaryHeading">Summary</h2>
       <p>{summary}</p>
       {actions && actions.length > 0 && (
         <>
           <h3>Action Items</h3>
-          <ul className="list-disc list-inside">
+          <ul className="action-list">
             {actions.map((item, idx) => (
               <li key={idx}>{item}</li>
             ))}
           </ul>
         </>
       )}
-    </div>
+    </section>
   );
 }
+
+SummaryBox.propTypes = {
+  summary: PropTypes.string,
+  actions: PropTypes.arrayOf(PropTypes.string),
+};
