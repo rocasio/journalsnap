@@ -65,7 +65,9 @@ journalsnap/
 - ├─ src/
 - │  ├─ components/
 - │  │  ├─ InputArea.jsx     **_Note input & “Summarize” button_**
-- │  │  └─ SummaryBox.jsx    **_Displays AI summary + actions_**
+- │  │  ├─ SummaryBox.jsx    **_Displays AI summary + actions_**
+- │  │  ├─ AccordionItem.jsx **_Displays item in accordion_**
+- │  │  └─ ShareMenu.jsx     **_Displays share menu items_** 
 - │  ├─ globals.css          **_Your custom global styles_**
 - │  ├─ index.css            **_Tailwind directives_**
 - │  ├─ App.jsx              **_Main layout & logic_**
