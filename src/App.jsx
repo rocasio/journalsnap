@@ -217,17 +217,15 @@ function App() {
         <h1>JournalSnap</h1>
       </header>
       <main>
-        <InputArea notes={notes} setNotes={setNotes} onSummarize={onSummarize} title={title} setTitle={setTitle} />
+        <InputArea
+          notes={notes}
+          setNotes={setNotes}
+          onSummarize={onSummarize}
+          title={title}
+          setTitle={setTitle}
+          fetchSavedSummaries={fetchSavedSummaries}
+        />
         <SummaryBox summary={summary} actions={actions} />
-        <button
-          id="viewSummariesBtn"
-          type="button"
-          aria-label="Show summarized notes"
-          onClick={fetchSavedSummaries}
-          className="view-saved-btn"
-        >
-          View Saved Summaries
-        </button>
         {showSaved && savedSummaries.length > 0 && (
           <div className="saved-summaries">
             <h2>Saved Summaries</h2>

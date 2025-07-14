@@ -1,3 +1,39 @@
+/* === Layout: Main container and form alignment === */
+main {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 800px;
+  width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.summary-actions-row-main {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 1rem;
+  align-items: flex-end;
+}
+.summary-actions-row-main > form {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-left: auto;
+  margin-right: auto;
+  flex: 1 1 0;
+  min-width: 0;
+}
 /* === Base/Reset === */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -44,24 +80,12 @@ body {
   align-items: center;
   padding: 2rem;
 }
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  max-width: 800px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.05);
-}
 
 /* === Form Elements === */
 .title-input {
   width: 100%;
   padding: 0.75rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -127,8 +151,13 @@ button:focus-visible,
 .view-saved-btn:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-.summarize-btn {
-  margin-top: 1rem;
+
+/* Row for Summarize and View Saved Summaries buttons */
+
+.summarize-btn,
+.view-saved-btn {
+  flex: 1 1 0;
+  min-width: 0;
   padding: 0.75rem 2rem;
   background-color: #3498db;
   border: none;
@@ -138,13 +167,17 @@ button:focus-visible,
   font-size: 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-top: 0;
 }
-.summarize-btn:hover {
+.summarize-btn:hover,
+.view-saved-btn:hover {
   background-color: #2980b9;
   transform: scale(1.05);
 }
 .summarize-btn:focus,
-.summarize-btn:focus-visible {
+.summarize-btn:focus-visible,
+.view-saved-btn:focus,
+.view-saved-btn:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
@@ -155,7 +188,7 @@ button:focus-visible,
   text-align: left;
 }
 .saved-summaries {
-  margin-top: 2rem;
+  margin-top: 1rem;
   text-align: left;
 }
 .saved-summaries > ul {
@@ -223,6 +256,7 @@ button:focus-visible,
   padding: 0.25rem 0;
   text-align: left;
   width: 100%;
+  max-width: 100%;
   display: flex;
   align-items: center;
   transition: color 0.3s;
@@ -326,6 +360,7 @@ button:focus-visible,
 .share-menu button, .share-menu a {
   display: block;
   width: 100%;
+  max-width: 100%;
   padding: 0.25rem 0.5rem;
   text-align: left;
   background: none;
