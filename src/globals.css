@@ -1,4 +1,51 @@
-/* === Layout: Main container and form alignment === */
+
+/* === Base/Reset === */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+/* === Typography === */
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+/* === Layout === */
 main {
   width: 100%;
   max-width: 800px;
@@ -33,52 +80,6 @@ main {
   margin-right: auto;
   flex: 1 1 0;
   min-width: 0;
-}
-/* === Base/Reset === */
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-
-/* === Typography === */
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  color: #2c3e50;
-}
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-/* === Layout/Containers === */
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
 }
 
 /* === Form Elements === */
@@ -127,6 +128,7 @@ textarea:focus {
   border: 1px solid #ccc;
 }
 
+/* === Buttons === */
 button,
 .view-saved-btn {
   margin-top: 1rem;
@@ -158,7 +160,6 @@ button:focus-visible,
 }
 
 /* Row for Summarize and View Saved Summaries buttons */
-
 .summarize-btn,
 .view-saved-btn {
   flex: 1 1 0;
@@ -216,6 +217,7 @@ button:focus-visible,
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.3s ease;
   list-style: none;
+  position: relative;
 }
 .summary-index-label {
   position: absolute;
@@ -228,9 +230,6 @@ button:focus-visible,
   border-radius: 6px;
   padding: 0.15em 0.7em;
   pointer-events: none;
-}
-.summary-card {
-  position: relative;
 }
 .summary-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -267,6 +266,7 @@ button:focus-visible,
   color: #3498db;
 }
 
+/* Accordion styles */
 .accordion-toggle {
   background: none;
   border: none;
@@ -324,19 +324,6 @@ button:focus-visible,
 .accordion-content.expanded {
   opacity: 1;
   max-height: 500px;
-}
-
-.delete-btn {
-  background: none;
-  border: none;
-  color: #e74c3c;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-left: 0.5rem;
-  transition: color 0.2s ease;
-}
-.delete-btn:hover {
-  color: #c0392b;
 }
 
 /* Export, share, and delete buttons with pop effect on hover */
@@ -423,11 +410,6 @@ button:focus-visible,
   display: none;
   font-size: 16px;
 }
-@media (min-width: 600px) {
-  .export-options-label {
-    display: block;
-  }
-}
 .controls-row > * {
   display: flex;
   align-items: center;
@@ -439,6 +421,7 @@ button:focus-visible,
   flex: 0 0 auto;
 }
 
+/* Share menu styles */
 .share-menu {
   position: absolute;
   left: 0;
@@ -470,8 +453,6 @@ button:focus-visible,
 .share-menu button:hover, .share-menu a:hover {
   background-color: #555;
 }
-
-/* Add share button wrapper for positioning the share menu */
 .share-btn-wrapper {
   position: relative;
   display: inline-block;
@@ -496,6 +477,11 @@ button:focus-visible,
 }
 
 /* === Media Queries === */
+@media (min-width: 600px) {
+  .export-options-label {
+    display: block;
+  }
+}
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -506,6 +492,12 @@ button:focus-visible,
   }
   button {
     background-color: #f9f9f9;
+  }
+  .accordion-toggle {
+    color: #1e4e79;
+  }
+  .accordion-toggle:hover {
+    color: #0d47a1;
   }
 }
 @media (prefers-color-scheme: dark) {
@@ -524,14 +516,6 @@ button:focus-visible,
   }
   .accordion-toggle:hover {
     color: #d0e9ff;
-  }
-}
-@media (prefers-color-scheme: light) {
-  .accordion-toggle {
-    color: #1e4e79;
-  }
-  .accordion-toggle:hover {
-    color: #0d47a1;
   }
 }
 @media (max-width: 768px) {
