@@ -90,6 +90,7 @@ function AccordionItem({ item, idx, isExpanded, onToggle, onDelete, selected, on
 
   return (
     <li className="summary-card">
+      <span className="summary-index-label">Summary #{idx + 1}</span>
       <div className="summary-header">
         <input
           type="checkbox"
@@ -113,9 +114,16 @@ function AccordionItem({ item, idx, isExpanded, onToggle, onDelete, selected, on
           aria-controls={`accordion-content-${idx}`}
           title="Toggle summary details"
         >
-          {isExpanded ? '▼' : '▶'}{' '}
-          {item.title ? `${item.title} | ` : ''}
-          {new Date(item.timestamp).toLocaleString()}
+          <span
+            className={`accordion-arrow${isExpanded ? ' expanded' : ''}`}
+            aria-hidden="true"
+          >
+            ▶
+          </span>
+          <span className="accordion-toggle-texts">
+            {item.title && <span className="accordion-toggle-title">{item.title}</span>}
+            <span className="accordion-toggle-timestamp">{new Date(item.timestamp).toLocaleString()}</span>
+          </span>
         </button>
         <button
           id="exportBtn"

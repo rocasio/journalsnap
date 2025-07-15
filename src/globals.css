@@ -212,6 +212,22 @@ button:focus-visible,
   transition: box-shadow 0.3s ease;
   list-style: none;
 }
+.summary-index-label {
+  position: absolute;
+  top: 0.75rem;
+  left: 1.25rem;
+  font-size: 0.95em;
+  color: #888;
+  font-weight: 600;
+  background: #f3f3f3;
+  border-radius: 6px;
+  padding: 0.15em 0.7em;
+  z-index: 2;
+  pointer-events: none;
+}
+.summary-card {
+  position: relative;
+}
 .summary-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -261,8 +277,35 @@ button:focus-visible,
   align-items: center;
   transition: color 0.3s;
 }
+.accordion-toggle-texts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 0.5rem;
+}
+.accordion-toggle-title {
+  font-weight: bold;
+  font-size: 1.05em;
+  line-height: 1.2;
+}
+.accordion-toggle-timestamp {
+  font-size: 0.95em;
+  color: #888;
+  line-height: 1.2;
+}
+.accordion-arrow {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  margin: 0 0.5rem;
+}
+.accordion-arrow.expanded {
+  transform: rotate(90deg);
+}
 .accordion-toggle:hover {
   color: #90caf9; /* Slightly brighter blue on hover */
+}
+.accordion-toggle:hover .accordion-toggle-timestamp {
+  color: #e0e0e0;
 }
 .accordion-content {
   margin-top: 0.5rem;
@@ -291,20 +334,44 @@ button:focus-visible,
   color: #c0392b;
 }
 
+/* Export, share, and delete buttons with pop effect on hover */
 .export-btn,
-.share-btn {
+.share-btn,
+.delete-btn {
   margin-left: 0.5rem;
-  background: transparent;
+  background: #3498db;
   border: none;
   font-size: 1rem;
   cursor: pointer;
-  color: #3498db;
-  transition: color 0.2s ease;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  padding: 0.5rem 1.1rem;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 .export-btn:hover,
 .share-btn:hover,
 .delete-btn:hover {
+  background-color: #2980b9;
   color: #fff;
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.export-btn:focus,
+.share-btn:focus,
+.delete-btn:focus,
+.export-btn:focus-visible,
+.share-btn:focus-visible,
+.delete-btn:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+.delete-btn {
+  background: #e74c3c;
+  color: #fff;
+}
+.delete-btn:hover {
+  background: #c0392b;
 }
 .export-all-btn {
   background-color: #2ecc71;
