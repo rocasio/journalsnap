@@ -152,6 +152,11 @@ button:focus-visible,
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Make select-all-label bold */
+.select-all-label {
+  font-weight: bold;
+}
+
 /* Row for Summarize and View Saved Summaries buttons */
 
 .summarize-btn,

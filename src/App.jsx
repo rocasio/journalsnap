@@ -273,14 +273,21 @@ function App() {
                 onClick={handleExportSelected}
                 disabled={selectedSummaries.length === 0}
                 aria-label="Export selected summaries"
+                aria-disabled={selectedSummaries.length === 0 ? "true" : undefined}
               >
                 <span aria-hidden="true">📦 Export Selected</span>
                 <span className="sr-only">Export Selected</span>
               </button>
             </div>
             <div className="select-all-row">
-              <label>
+              <label className="select-all-label">
                 <input
+                  id="selectAllCheckbox"
+                  aria-label="Select all summaries"
+                  aria-labelledby="selectAllCheckbox"
+                  className='select-all-checkbox'
+                  role="checkbox"
+                  aria-checked={selectedSummaries.length === savedSummaries.length && savedSummaries.length > 0 ? "true" : "false"}
                   type="checkbox"
                   checked={selectedSummaries.length === savedSummaries.length && savedSummaries.length > 0}
                   onChange={handleSelectAll}
