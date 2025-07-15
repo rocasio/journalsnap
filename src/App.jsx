@@ -229,7 +229,14 @@ function App() {
         {showSaved && savedSummaries.length > 0 && (
           <div className="saved-summaries">
             <h2>Saved Summaries</h2>
-            <div className="controls-row">
+            <div className="controls-row" role="group" aria-labelledby="export-options-label">
+              <span
+                id="export-options-label"
+                className="export-options-label"
+                aria-hidden="false"
+              >
+                Export Options:
+              </span>
               <div className="sort-group">
                 <label htmlFor="sortOrder">Sort by:</label>
                 <select
