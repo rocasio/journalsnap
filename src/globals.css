@@ -1,3 +1,59 @@
+@media (max-width: 600px) {
+  /* Accordion header: center toggle, title, and timestamp on one row */
+  .accordion-toggle {
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100%;
+    gap: 0.5rem;
+  }
+  .accordion-toggle-texts {
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 0.5rem;
+    margin-left: 0 !important;
+  }
+  .accordion-toggle-title,
+  .accordion-toggle-timestamp {
+    text-align: center !important;
+    margin: 0 !important;
+    display: inline-block;
+  }
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    gap: 1rem !important;
+  }
+  .controls-row .export-options-label {
+    display: block !important;
+    text-align: center;
+    margin: 0 auto 0.25rem auto;
+    width: 100%;
+    justify-content: center;
+  }
+  .controls-row .sort-group,
+  .controls-row .format-group {
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .controls-row .sort-group,
+  .controls-row .format-group {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+  .controls-row .export-all-btn {
+    display: block;
+    margin: 0.5rem auto 0 auto;
+    width: 100%;
+    max-width: 320px;
+  }
+}
 
 /* === Base/Reset === */
 :root {
@@ -196,6 +252,32 @@ button:focus-visible,
 .saved-summaries {
   margin-top: 1rem;
   text-align: left;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 600px) {
+  .saved-summaries h2 {
+    font-size: 1.25rem;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    overflow-wrap: break-word;
+  }
+  .saved-summaries {
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    box-sizing: border-box;
+    overflow-x: auto;
+  }
 }
 .saved-summaries > ul {
   list-style: none;
@@ -519,18 +601,13 @@ button:focus-visible,
   }
 }
 @media (max-width: 768px) {
-  .container {
-    align-items: center;
-    text-align: center;
-    padding: 0;
-  }
-  main {
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
-    overflow-y: auto;
-    padding: 1rem;
-    min-height: 0;
+  .accordion-toggle-texts {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 0.1rem;
+    margin-left: 0 !important;
   }
   .view-saved-btn {
     position: fixed;
