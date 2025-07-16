@@ -92,79 +92,84 @@ function AccordionItem({ item, idx, isExpanded, onToggle, onDelete, selected, on
     <li className="summary-card">
       <span className="summary-index-label">Summary #{idx + 1}</span>
       <div className="summary-header">
-        <input
-          type="checkbox"
-          checked={selected}
-          onChange={() => onSelect(item.timestamp)}
-          className="summary-checkbox"
-          aria-label="Select summary"
-        />
-        <button
-          id={`accordionToggle-${idx}`}
-          type="button"
-          onClick={onToggle}
-          onKeyDown={e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              onToggle();
-            }
-          }}
-          className="accordion-toggle"
-          aria-expanded={isExpanded}
-          aria-controls={`accordion-content-${idx}`}
-          title="Toggle summary details"
-        >
-          <span
-            className={`accordion-arrow${isExpanded ? ' expanded' : ''}`}
-            aria-hidden="true"
-          >
-            ▶
-          </span>
-          <span className="accordion-toggle-texts">
-            {item.title && <span className="accordion-toggle-title">{item.title}</span>}
-            <span className="accordion-toggle-timestamp">{new Date(item.timestamp).toLocaleString()}</span>
-          </span>
-        </button>
-        <button
-          id="exportBtn"
-          type="button"
-          aria-label="Export summary"
-          className="export-btn"
-          title="Export this summary"
-          onClick={handleExport}
-        >
-          📄 Export
-        </button>
-        <div className="share-btn-wrapper">
+        {/* First row: checkbox + accordion toggle */}
+        <div className="summary-top-row">
+          <input
+            type="checkbox"
+            checked={selected}
+            onChange={() => onSelect(item.timestamp)}
+            className="summary-checkbox"
+            aria-label="Select summary"
+          />
           <button
-            id="shareBtn"
+            id={`accordionToggle-${idx}`}
             type="button"
-            className="share-btn"
-            aria-label="Share summary"
-            title="Share this summary"
-            onClick={() => toggleShareMenu(idx)}
-          >📧 Share</button>
-          {shareMenuIndex === idx && (
-            <ShareMenu
-              item={item}
-              shareMenuRef={shareMenuRef}
-              shareFirstBtnRef={shareFirstBtnRef}
-              handleCopy={handleCopy}
-              handleEmail={handleEmail}
-              handleDeviceShare={handleDeviceShare}
-            />
-          )}
+            onClick={onToggle}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onToggle();
+              }
+            }}
+            className="accordion-toggle"
+            aria-expanded={isExpanded}
+            aria-controls={`accordion-content-${idx}`}
+            title="Toggle summary details"
+          >
+            <span className={`accordion-arrow${isExpanded ? ' expanded' : ''}`} aria-hidden="true">
+              ▶
+            </span>
+            <span className="accordion-toggle-texts">
+              {item.title && <span className="accordion-toggle-title">{item.title}</span>}
+              <span className="accordion-toggle-timestamp">
+                {new Date(item.timestamp).toLocaleString()}
+              </span>
+            </span>
+          </button>
         </div>
-        <button
-          id="deleteBtn"
-          type="button"
-          aria-label="Delete summary"
-          onClick={onDelete}
-          className="delete-btn"
-          title="Delete this summary"
-        >
-          🗑 Delete
-        </button>
+
+        {/* Second row: actions */}
+        <div className="summary-action-buttons">
+          <button
+            id="exportBtn"
+            type="button"
+            className="export-btn"
+            title="Export this summary"
+            onClick={handleExport}
+          >
+            📄 Export
+          </button>
+          <div className="share-btn-wrapper">
+            <button
+              id="shareBtn"
+              type="button"
+              className="share-btn"
+              onClick={() => toggleShareMenu(idx)}
+              title="Share this summary"
+            >
+              📧 Share
+            </button>
+            {shareMenuIndex === idx && (
+              <ShareMenu
+                item={item}
+                shareMenuRef={shareMenuRef}
+                shareFirstBtnRef={shareFirstBtnRef}
+                handleCopy={handleCopy}
+                handleEmail={handleEmail}
+                handleDeviceShare={handleDeviceShare}
+              />
+            )}
+          </div>
+          <button
+            id="deleteBtn"
+            type="button"
+            onClick={onDelete}
+            className="delete-btn"
+            title="Delete this summary"
+          >
+            🗑 Delete
+          </button>
+        </div>
       </div>
       <div
         className={`accordion-content${isExpanded ? ' expanded' : ' collapsed'}`}

@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 
 export default function InputArea({ notes, setNotes, onSummarize, title, setTitle, fetchSavedSummaries }) {
   return (
-    <form onSubmit={e => { e.preventDefault(); onSummarize(); }} aria-label="Summarize notes form">
+    <form 
+      className='input-area-form'
+      onSubmit={e => { e.preventDefault(); onSummarize(); }} 
+      aria-label="Summarize notes form">
       <div>
         <label htmlFor="titleInput">Title (optional):</label>
         <input
