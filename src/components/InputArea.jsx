@@ -1,9 +1,13 @@
 // src/components/InputArea.jsx
 import PropTypes from 'prop-types';
 
-export default function InputArea({ notes, setNotes, onSummarize, title, setTitle }) {
+
+export default function InputArea({ notes, setNotes, onSummarize, title, setTitle, fetchSavedSummaries }) {
   return (
-    <form onSubmit={e => { e.preventDefault(); onSummarize(); }} aria-label="Summarize notes form">
+    <form 
+      className='input-area-form'
+      onSubmit={e => { e.preventDefault(); onSummarize(); }} 
+      aria-label="Summarize notes form">
       <div>
         <label htmlFor="titleInput">Title (optional):</label>
         <input
@@ -25,14 +29,25 @@ export default function InputArea({ notes, setNotes, onSummarize, title, setTitl
           onChange={e => setNotes(e.target.value)}
         />
       </div>
-      <button 
-        id="summarizeBtn"
-        type="submit"
-        aria-label="Summarize notes"
-        className="summarize-btn"
-      >
-        Summarize
-      </button>
+      <div className="summary-actions-row-main">
+        <button 
+          id="summarizeBtn"
+          type="submit"
+          aria-label="Summarize notes"
+          className="summarize-btn"
+        >
+          Summarize
+        </button>
+        <button
+          id="viewSummariesBtn"
+          type="button"
+          aria-label="Show summarized notes"
+          onClick={fetchSavedSummaries}
+          className="view-saved-btn"
+        >
+          View Saved Summaries
+        </button>
+      </div>
     </form>
   );
 }
@@ -43,4 +58,5 @@ InputArea.propTypes = {
   onSummarize: PropTypes.func.isRequired,
   title: PropTypes.string.isRequired,
   setTitle: PropTypes.func.isRequired,
+  fetchSavedSummaries: PropTypes.func.isRequired,
 };

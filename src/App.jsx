@@ -217,21 +217,26 @@ function App() {
         <h1>JournalSnap</h1>
       </header>
       <main>
-        <InputArea notes={notes} setNotes={setNotes} onSummarize={onSummarize} title={title} setTitle={setTitle} />
+        <InputArea
+          notes={notes}
+          setNotes={setNotes}
+          onSummarize={onSummarize}
+          title={title}
+          setTitle={setTitle}
+          fetchSavedSummaries={fetchSavedSummaries}
+        />
         <SummaryBox summary={summary} actions={actions} />
-        <button
-          id="viewSummariesBtn"
-          type="button"
-          aria-label="Show summarized notes"
-          onClick={fetchSavedSummaries}
-          className="view-saved-btn"
-        >
-          View Saved Summaries
-        </button>
         {showSaved && savedSummaries.length > 0 && (
           <div className="saved-summaries">
             <h2>Saved Summaries</h2>
-            <div className="controls-row">
+            <div className="controls-row" role="group" aria-labelledby="export-options-label">
+              <span
+                id="export-options-label"
+                className="export-options-label"
+                aria-hidden="false"
+              >
+                Export Options:
+              </span>
               <div className="sort-group">
                 <label htmlFor="sortOrder">Sort by:</label>
                 <select
@@ -268,14 +273,21 @@ function App() {
                 onClick={handleExportSelected}
                 disabled={selectedSummaries.length === 0}
                 aria-label="Export selected summaries"
+                aria-disabled={selectedSummaries.length === 0 ? "true" : undefined}
               >
                 <span aria-hidden="true">📦 Export Selected</span>
                 <span className="sr-only">Export Selected</span>
               </button>
             </div>
             <div className="select-all-row">
-              <label>
+              <label className="select-all-label">
                 <input
+                  id="selectAllCheckbox"
+                  aria-label="Select all summaries"
+                  aria-labelledby="selectAllCheckbox"
+                  className='select-all-checkbox'
+                  role="checkbox"
+                  aria-checked={selectedSummaries.length === savedSummaries.length && savedSummaries.length > 0 ? "true" : "false"}
                   type="checkbox"
                   checked={selectedSummaries.length === savedSummaries.length && savedSummaries.length > 0}
                   onChange={handleSelectAll}
