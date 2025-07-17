@@ -3,6 +3,7 @@
 ### Day 11 - Miscellaneous
 - Added CSV option for Export
 - Changed text for export options
+- Fixed style bug for Export and Delete buttons
 
 ### Day 7 - 10 - More Enhancements
 - Unified button styles
