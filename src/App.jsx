@@ -86,88 +86,92 @@ function App() {
     }
   };
 
-  const handleExportSelected = () => {
-    try {
-      const selected = savedSummaries.filter((s) =>
-        selectedSummaries.includes(s.timestamp)
-      );
+  const handleExportSelected = async () => {
+    if (selectedSummaries.length === 0) return;
 
-      if (selected.length === 0) return;
-
-      const sorted = [...selected].sort((a, b) => {
-        return sortOrder === 'newest'
-          ? new Date(b.timestamp) - new Date(a.timestamp)
-          : new Date(a.timestamp) - new Date(b.timestamp);
+    const sorted = [...savedSummaries]
+      .filter(s => selectedSummaries.includes(s.timestamp))
+      .sort((a, b) => {
+        return sortOrder === 'oldest'
+          ? new Date(a.timestamp) - new Date(b.timestamp)
+          : new Date(b.timestamp) - new Date(a.timestamp);
       });
 
+    try {
       if (exportFormat === 'pdf') {
+        const { jsPDF } = await import('jspdf');
+
         const doc = new jsPDF();
-        let y = 10;
-
-        sorted.forEach((item) => {
-          const { title, timestamp, summary, actionItems } = item;
-          const content = `Title: ${title || '(Untitled)'}\nDate: ${new Date(
-            timestamp
-          ).toLocaleString()}\n\nSummary:\n${summary}\n\nAction Items:\n${
-            actionItems.length
-              ? actionItems.map((ai) => `- ${ai}`).join('\n')
-              : '(None)'
-          }\n---\n\n`;
-
-          const lines = doc.splitTextToSize(content, 180);
-          if (y + lines.length * 10 > 270) {
-            doc.addPage();
-            y = 10;
+        sorted.forEach((item, i) => {
+          const yStart = 10 + i * 80;
+          doc.setFontSize(12);
+          doc.text(`Title: ${item.title || '(Untitled)'}`, 10, yStart);
+          doc.text(`Date: ${new Date(item.timestamp).toLocaleString()}`, 10, yStart + 6);
+          doc.text('Summary:', 10, yStart + 12);
+          doc.text(item.summary, 10, yStart + 18);
+          doc.text('Action Items:', 10, yStart + 24);
+          if (item.actionItems && item.actionItems.length > 0) {
+            item.actionItems.forEach((ai, j) => {
+              doc.text(`- ${ai}`, 14, yStart + 30 + j * 6);
+            });
+          } else {
+            doc.text('(None)', 14, yStart + 30);
           }
-
-          doc.text(lines, 10, y);
-          y += lines.length * 10;
+          if (i < sorted.length - 1) {
+            doc.addPage();
+          }
         });
-
         doc.save(`journalsnap_selected_${new Date().toISOString().slice(0, 10)}.pdf`);
-        toast.success('Export completed!', {
-          duration: 3000,
-          style: {
-            borderRadius: '8px',
-            background: '#333',
-            color: '#fff',
-          },
+      } else if (exportFormat === 'csv') {
+        const csvHeaders = ['Title', 'Date', 'Summary', 'Action Items'];
+        const rows = sorted.map(({ title, timestamp, summary, actionItems }) => {
+          const formattedDate = new Date(timestamp).toLocaleString();
+          const actions = actionItems.length > 0 ? actionItems.join('; ') : '(None)';
+          return [`"${title || '(Untitled)'}"`, `"${formattedDate}"`, `"${summary}"`, `"${actions}"`];
         });
-        setSelectedSummaries([]);
-        setExpandedIndex(null);
-        return;
+
+        const csvContent = [csvHeaders, ...rows].map(row => row.join(',')).join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `journalsnap_selected_${new Date().toISOString().slice(0, 10)}.csv`;
+        link.click();
+        URL.revokeObjectURL(url);
+      } else {
+        const extension = exportFormat === 'md' ? 'md' : 'txt';
+        const lines = sorted.flatMap((item, idx) => {
+          const titleLine = `Title: ${item.title || '(Untitled)'}`;
+          const dateLine = `Date: ${new Date(item.timestamp).toLocaleString()}`;
+          const summary = item.summary;
+          const actions = item.actionItems?.length
+            ? item.actionItems.map(ai => `- ${ai}`).join('\n')
+            : '- (None)';
+          return [
+            `${titleLine}`,
+            `${dateLine}`,
+            '',
+            `Summary:`,
+            summary,
+            '',
+            `Action Items:`,
+            actions,
+            '',
+            idx < sorted.length - 1 ? '---\n' : ''
+          ];
+        });
+
+        const blob = new Blob([lines.join('\n')], {
+          type: exportFormat === 'md' ? 'text/markdown' : 'text/plain'
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `journalsnap_selected_${new Date().toISOString().slice(0, 10)}.${extension}`;
+        link.click();
+        URL.revokeObjectURL(url);
       }
 
-      const content = sorted
-        .map((item) => {
-          const { title, timestamp, summary, actionItems } = item;
-          return [
-            exportFormat === 'md' ? `## ${title || '(Untitled)'}` : `Title: ${title || '(Untitled)'}`,
-            `Date: ${new Date(timestamp).toLocaleString()}`,
-            ``,
-            exportFormat === 'md' ? `### Summary` : `Summary:`,
-            summary,
-            ``,
-            exportFormat === 'md' ? `### Action Items` : `Action Items:`,
-            ...(actionItems.length
-              ? actionItems.map((ai) => `- ${ai}`)
-              : ['(None)']),
-            ``,
-            `---`,
-            ``
-          ].join('\n');
-        })
-        .join('\n');
-
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const extension = exportFormat === 'md' ? 'md' : 'txt';
-
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `journalsnap_selected_${new Date().toISOString().slice(0, 10)}.${extension}`;
-      link.click();
-      URL.revokeObjectURL(url);
       toast.success('Export completed!', {
         duration: 3000,
         style: {
@@ -176,12 +180,12 @@ function App() {
           color: '#fff',
         },
       });
+
       setSelectedSummaries([]);
       setExpandedIndex(null);
     } catch (err) {
-      toast.error('Failed to export selected summaries.');
-      // eslint-disable-next-line no-console
-      console.error('Export error:', err);
+      console.error('Export failed:', err);
+      toast.error('Export failed. See console for details.');
     }
   };
 
@@ -266,6 +270,7 @@ function App() {
                   <option value="txt">.txt</option>
                   <option value="md">.md</option>
                   <option value="pdf">.pdf</option>
+                  <option value="csv">.csv</option>
                 </select>
               </div>
               <button
