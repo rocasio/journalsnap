@@ -239,7 +239,7 @@ function App() {
                 className="export-options-label"
                 aria-hidden="false"
               >
-                Export Options:
+                Sort/Export Options:
               </span>
               <div className="sort-group">
                 <label htmlFor="sortOrder">Sort by:</label>

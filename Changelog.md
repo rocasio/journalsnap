@@ -1,5 +1,9 @@
 # 📓 JournalSnap Changelog
 
+### Day 11 - Miscellaneous
+- Added CSV option for Export
+- Changed text for export options
+
 ### Day 7 - 10 - More Enhancements
 - Unified button styles
 - Updated look of export options section
