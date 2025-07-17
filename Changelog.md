@@ -1,5 +1,14 @@
 # 📓 JournalSnap Changelog
 
+### Day 7 - 10 - More Enhancements
+- Unified button styles
+- Updated look of export options section
+- Added title to summary cards
+- Added animation to accordion toggle
+- Improved accessibility
+- Improved mobile layout
+- Other miscellaneious styling updates
+
 ### Day 6 – Sharing + UX Enhancements
 - Added persistent format and sort order (saved to localStorage)
 - Implemented share menu with:
