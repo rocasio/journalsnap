@@ -1,15 +1,11 @@
 /* === Base/Reset === */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --color-bg: #ffffff;
+  --color-text: #213547;
+  --color-accent: #3498db;
+  --color-muted: #888;
+  --color-card-bg: #f9f9f9;
+  --color-border: #ddd;
 }
 *, *::before, *::after {
   box-sizing: border-box;
@@ -20,8 +16,27 @@ body {
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  font-family: inherit;
-  background-color: inherit;
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+body.theme-dark {
+  --color-bg: #242424;
+  --color-text: rgba(255, 255, 255, 0.87);
+  --color-accent: #64b5f6;
+  --color-muted: #aaa;
+  --color-card-bg: #2b2b2b;
+  --color-border: #444;
+}
+
+body.theme-light {
+  --color-bg: #ffffff;
+  --color-text: #213547;
+  --color-accent: #3498db;
+  --color-muted: #888;
+  --color-card-bg: #f9f9f9;
+  --color-border: #ddd;
 }
 
 /* === Typography === */
@@ -32,11 +47,11 @@ h1 {
 h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
-  color: #2c3e50;
+  color: var(--color-text);
 }
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--color-accent);
   text-decoration: inherit;
 }
 a:hover {
@@ -134,7 +149,7 @@ button,
 .view-saved-btn {
   margin-top: 1rem;
   padding: 0.75rem 2rem;
-  background-color: #3498db;
+  background-color: var(--color-accent);
   border: none;
   border-radius: 6px;
   color: white;
@@ -166,7 +181,7 @@ button:focus-visible,
   flex: 1 1 0;
   min-width: 0;
   padding: 0.75rem 2rem;
-  background-color: #3498db;
+  background-color: var(--color-accent);
   border: none;
   border-radius: 6px;
   color: white;
@@ -206,6 +221,7 @@ button:focus-visible,
   flex-direction: row;
   gap: 0.5rem;
   justify-content: space-evenly;
+  margin-top: 0.5rem;
 }
 .summary-top-row {
   display: flex;
@@ -369,7 +385,7 @@ button:focus-visible,
     line-height: 1.6;
   }
   .summary-card {
-    background-color: #f9f9f9;
+    background-color: var(--color-card-bg);
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 1.25rem;
@@ -383,7 +399,7 @@ button:focus-visible,
     top: 0.75rem;
     left: 1.25rem;
     font-size: 0.95em;
-    color: #888;
+    color: var(--color-muted);
     font-weight: 600;
     background: #f3f3f3;
     border-radius: 6px;
@@ -421,7 +437,7 @@ button:focus-visible,
   .action-icon {
     margin-right: 0.5rem;
     font-size: 1.1rem;
-    color: #3498db;
+    color: var(--color-accent);
   }
 
 /* === Components: Accordion === */
@@ -453,7 +469,7 @@ button:focus-visible,
 }
 .accordion-toggle-timestamp {
   font-size: 0.95em;
-  color: #888;
+  color: var(--color-muted);
   line-height: 1.2;
 }
 .accordion-arrow {
@@ -489,7 +505,7 @@ button:focus-visible,
 .share-btn,
 .delete-btn {
   margin-left: 0.5rem;
-  background: #3498db;
+  background: var(--color-accent);
   border: none;
   font-size: 1rem;
   cursor: pointer;
@@ -500,6 +516,7 @@ button:focus-visible,
   transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   width: 90px;
+  height: 55px;
 }
 .export-btn:hover,
 .share-btn:hover,
@@ -553,7 +570,7 @@ button:focus-visible,
   justify-content: space-between;
   gap: 1.5rem;
   margin-bottom: 1rem;
-  background-color: #f9f9f9;
+  background-color: var(--color-card-bg);
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 1rem;
@@ -563,7 +580,7 @@ button:focus-visible,
   font-weight: bold;
   font-size: 1.05rem;
   white-space: nowrap;
-  color: #2c3e50;
+  color: var(--color-muted);
   flex-shrink: 0;
   display: none;
   font-size: 16px;
@@ -587,7 +604,7 @@ button:focus-visible,
   margin-top: 0.25rem;
   background-color: #333;
   color: #fff;
-  border: 1px solid #444;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   padding: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -642,14 +659,14 @@ button:focus-visible,
 }
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: var(--color-text);
+    background-color: var(--color-bg);
   }
   a:hover {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: var(--color-card-bg);
   }
   .accordion-toggle {
     color: #1e4e79;
@@ -661,7 +678,7 @@ button:focus-visible,
 @media (prefers-color-scheme: dark) {
   .summary-card {
     background-color: #2b2b2b;
-    border-color: #444;
+    border-color: var(--color-border);
   }
   .export-btn {
     color: #90caf9;
@@ -751,7 +768,7 @@ button:focus-visible,
 .share-btn.menu-open,
 .share-btn.menu-open:hover {
   pointer-events: none !important;
-  color: #3498db !important;
+  color: var(--color-accent) !important;
   background: transparent !important;
 }
 

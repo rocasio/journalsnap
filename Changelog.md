@@ -1,5 +1,9 @@
 # 📓 JournalSnap Changelog
 
+### Day 12 - Dark / Light Theme
+- Added toggle to switch between light and dark theme
+- Theme choice is saved in persistent storage and used next time page is opened
+
 ### Day 11 - Miscellaneous
 - Added CSV option for Export
 - Changed text for export options
