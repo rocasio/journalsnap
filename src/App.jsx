@@ -4,6 +4,7 @@ import SummaryBox from './components/SummaryBox';
 import AccordionItem from './components/AccordionItem';
 import { Toaster, toast } from 'react-hot-toast';
 import jsPDF from 'jspdf';
+import ThemeToggle from './components/ThemeToggle';
 
 function App() {
   const [notes, setNotes] = useState('');
@@ -220,6 +221,7 @@ function App() {
       <header>
         <h1>JournalSnap</h1>
       </header>
+      <ThemeToggle />
       <main>
         <InputArea
           notes={notes}
