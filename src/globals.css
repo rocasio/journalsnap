@@ -676,7 +676,6 @@ button:focus-visible,
     margin: 1rem 1rem 0 1rem;
   }
   .summary-card {
-    background-color: #f9f9f9;
     border-color: var(--color-border);
   }
 }
