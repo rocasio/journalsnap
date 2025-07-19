@@ -673,6 +673,11 @@ button:focus-visible,
   }
   .accordion-toggle:hover {
     color: #0d47a1;
+    margin: 1rem 1rem 0 1rem;
+  }
+  .summary-card {
+    background-color: #f9f9f9;
+    border-color: var(--color-border);
   }
 }
 @media (prefers-color-scheme: dark) {
@@ -691,6 +696,7 @@ button:focus-visible,
   }
   .accordion-toggle:hover {
     color: #d0e9ff;
+    margin: 1rem 1rem 0 1rem;
   }
 }
 @media (max-width: 600px) {
