@@ -79,7 +79,7 @@ main {
   box-sizing: border-box;
   margin: 0 auto;
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--color-card-bg);
 }
 .summary-actions-row-main {
   width: 100%;
