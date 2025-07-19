@@ -40,3 +40,4 @@ coverage/
 *.bak
 *.tmp
 summaries.json
+.vercel

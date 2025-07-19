@@ -1,5 +1,10 @@
 # 📓 JournalSnap Changelog
 
+### Day 13 - Deploying to Vercel
+- Added support to host app on Vercel
+- Changed persistent storage to Firestore Database on Firebase
+- Updated endpoints to work with new configuration
+
 ### Day 12 - Dark / Light Theme
 - Added toggle to switch between light and dark theme
 - Theme choice is saved in persistent storage and used next time page is opened

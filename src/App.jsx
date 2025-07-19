@@ -5,6 +5,8 @@ import AccordionItem from './components/AccordionItem';
 import { Toaster, toast } from 'react-hot-toast';
 import jsPDF from 'jspdf';
 import ThemeToggle from './components/ThemeToggle';
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 function App() {
   const [notes, setNotes] = useState('');
@@ -55,7 +57,7 @@ function App() {
 
   const fetchSavedSummaries = async () => {
     try {
-      const res = await fetch('/summaries');
+      const res = await fetch('/api/summaries');
       const data = await res.json();
       setSavedSummaries(data.reverse());
       setShowSaved(true);
@@ -68,7 +70,7 @@ function App() {
     const confirmDelete = window.confirm('Are you sure you want to delete this summary? This action cannot be undone.');
     if (!confirmDelete) return;
     try {
-      const res = await fetch(`/summaries/${timestamp}`, { method: 'DELETE' });
+      const res = await fetch(`/api/summaries/${timestamp}`, { method: 'DELETE' });
       const result = await res.json();
       if (result.success) {
         setSavedSummaries((prev) =>
@@ -221,6 +223,8 @@ function App() {
       <header>
         <h1>JournalSnap</h1>
       </header>
+      <Analytics />
+      <SpeedInsights />
       <ThemeToggle />
       <main>
         <InputArea
