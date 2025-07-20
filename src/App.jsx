@@ -36,15 +36,15 @@ function App() {
     setShareMenuIndex(shareMenuIndex === index ? null : index);
   };
 
-  const onSummarize = async () => {
-    if (!notes.trim()) return;
+  const onSummarize = async (payload) => {
+    if (!payload.notes?.trim()) return;
     setSummary('Summarizing…');
     setActions([]);
     try {
       const res = await fetch('/api/summarize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, notes }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -64,7 +64,8 @@ function App() {
 
   const fetchSavedSummaries = async () => {
     try {
-      const res = await fetch('/api/summaries');
+      const uidParam = user?.uid ? `?uid=${encodeURIComponent(user.uid)}` : '';
+      const res = await fetch(`/api/summaries${uidParam}`);
       const data = await res.json();
       setSavedSummaries(data.reverse());
       setShowSaved(true);
@@ -77,7 +78,8 @@ function App() {
     const confirmDelete = window.confirm('Are you sure you want to delete this summary? This action cannot be undone.');
     if (!confirmDelete) return;
     try {
-      const res = await fetch(`/api/summaries/${timestamp}`, { method: 'DELETE' });
+      const uidParam = user?.uid ? `?uid=${encodeURIComponent(user.uid)}` : '';
+      const res = await fetch(`/api/summaries/${timestamp}${uidParam}`, { method: 'DELETE' });
       const result = await res.json();
       if (result.success) {
         setSavedSummaries((prev) =>
@@ -243,6 +245,7 @@ function App() {
             title={title}
             setTitle={setTitle}
             fetchSavedSummaries={fetchSavedSummaries}
+            user={user}
           />
           <SummaryBox summary={summary} actions={actions} />
           {showSaved && savedSummaries.length > 0 && (

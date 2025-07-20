@@ -11,14 +11,18 @@ const db = getFirestore();
 export default async function handler(req, res) {
   if (req.method !== 'DELETE') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { timestamp } = req.query;
+  const { timestamp, uid } = req.query;
   if (!timestamp) return res.status(400).json({ error: 'Timestamp is required.' });
+  if (!uid) return res.status(400).json({ error: 'User UID is required.' });
 
   try {
-    // Find the document with the matching timestamp
-    const snapshot = await db.collection('summaries').where('timestamp', '==', timestamp).get();
+    // Find the document with the matching timestamp and uid
+    const snapshot = await db.collection('summaries')
+      .where('timestamp', '==', timestamp)
+      .where('uid', '==', uid)
+      .get();
     if (snapshot.empty) {
-      return res.status(404).json({ error: 'Summary not found.' });
+      return res.status(404).json({ error: 'Summary not found or does not belong to user.' });
     }
     // Delete all matching documents (should be only one)
     const deletePromises = snapshot.docs.map(doc => doc.ref.delete());

@@ -19,7 +19,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    const { title, notes } = req.body;
+    const { title, notes, uid, email } = req.body;
 
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -63,13 +63,15 @@ export default async function handler(req, res) {
       : [];
 
 
-    // Save summary to Firestore
+    // Save summary to Firestore, including user info
     await db.collection('summaries').add({
       title: title || '',
       text: notes,
       summary: summaryText,
       actionItems,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      uid: uid || '',
+      email: email || ''
     });
 
     res.status(200).json({ summary: summaryText, actionItems });

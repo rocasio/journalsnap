@@ -2,11 +2,23 @@
 import PropTypes from 'prop-types';
 
 
-export default function InputArea({ notes, setNotes, onSummarize, title, setTitle, fetchSavedSummaries }) {
+export default function InputArea({ notes, setNotes, onSummarize, title, setTitle, fetchSavedSummaries, user }) {
+  // Wrap onSummarize to send user info
+  const handleSummarize = async () => {
+    // Compose payload
+    const payload = {
+      title,
+      notes,
+      uid: user?.uid || '',
+      email: user?.email || ''
+    };
+    await onSummarize(payload);
+  };
+
   return (
     <form 
       className='input-area-form'
-      onSubmit={e => { e.preventDefault(); onSummarize(); }} 
+      onSubmit={e => { e.preventDefault(); handleSummarize(); }} 
       aria-label="Summarize notes form">
       <div>
         <label htmlFor="titleInput">Title (optional):</label>
@@ -59,4 +71,5 @@ InputArea.propTypes = {
   title: PropTypes.string.isRequired,
   setTitle: PropTypes.func.isRequired,
   fetchSavedSummaries: PropTypes.func.isRequired,
+  user: PropTypes.object,
 };
