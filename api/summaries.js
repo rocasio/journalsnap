@@ -13,8 +13,13 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   try {
-    // Get all summaries from Firestore
-    const snapshot = await db.collection('summaries').orderBy('timestamp', 'desc').get();
+    // Optionally filter by user UID
+    const { uid } = req.query;
+    let query = db.collection('summaries');
+    if (uid) {
+      query = query.where('uid', '==', uid);
+    }
+    const snapshot = await query.orderBy('timestamp', 'desc').get();
     const summaries = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     res.status(200).json(summaries);
   } catch (err) {
