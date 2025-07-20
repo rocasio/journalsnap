@@ -1,3 +1,13 @@
+/* Character count for notes input */
+.char-count {
+  font-size: 0.95em;
+  color: #666;
+  margin-top: 4px;
+  text-align: right;
+}
+.char-count-limit {
+  color: #d32f2f;
+}
 /* === Base/Reset === */
 :root {
   --color-bg: #ffffff;
