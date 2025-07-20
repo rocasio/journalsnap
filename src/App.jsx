@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import InputArea from './components/InputArea';
 import SummaryBox from './components/SummaryBox';
 import AccordionItem from './components/AccordionItem';
@@ -7,8 +7,15 @@ import jsPDF from 'jspdf';
 import ThemeToggle from './components/ThemeToggle';
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import AuthToggle from './components/AuthToggle';
+import { auth } from './firebase';
 
 function App() {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(setUser);
+    return () => unsubscribe();
+  }, []);
   const [notes, setNotes] = useState('');
   const [summary, setSummary] = useState('');
   const [actions, setActions] = useState([]);
@@ -225,108 +232,111 @@ function App() {
       </header>
       <Analytics />
       <SpeedInsights />
+      <AuthToggle user={user} />
       <ThemeToggle />
-      <main>
-        <InputArea
-          notes={notes}
-          setNotes={setNotes}
-          onSummarize={onSummarize}
-          title={title}
-          setTitle={setTitle}
-          fetchSavedSummaries={fetchSavedSummaries}
-        />
-        <SummaryBox summary={summary} actions={actions} />
-        {showSaved && savedSummaries.length > 0 && (
-          <div className="saved-summaries">
-            <h2>Saved Summaries</h2>
-            <div className="controls-row" role="group" aria-labelledby="export-options-label">
-              <span
-                id="export-options-label"
-                className="export-options-label"
-                aria-hidden="false"
-              >
-                Sort/Export Options:
-              </span>
-              <div className="sort-group">
-                <label htmlFor="sortOrder">Sort by:</label>
-                <select
-                  id="sortOrder"
-                  value={sortOrder}
-                  onChange={(e) => {
-                    const newOrder = e.target.value;
-                    setSortOrder(newOrder);
-                    localStorage.setItem('sortOrder', newOrder);
-                  }}
+      {user && (
+        <main>
+          <InputArea
+            notes={notes}
+            setNotes={setNotes}
+            onSummarize={onSummarize}
+            title={title}
+            setTitle={setTitle}
+            fetchSavedSummaries={fetchSavedSummaries}
+          />
+          <SummaryBox summary={summary} actions={actions} />
+          {showSaved && savedSummaries.length > 0 && (
+            <div className="saved-summaries">
+              <h2>Saved Summaries</h2>
+              <div className="controls-row" role="group" aria-labelledby="export-options-label">
+                <span
+                  id="export-options-label"
+                  className="export-options-label"
+                  aria-hidden="false"
                 >
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
-                </select>
-              </div>
-              <div className="format-group">
-                <label htmlFor="exportFormat">Format:</label>
-                <select
-                  id="exportFormat"
-                  value={exportFormat}
-                  onChange={(e) => {
-                    const format = e.target.value;
-                    setExportFormat(format);
-                    localStorage.setItem('exportFormat', format);
-                  }}
+                  Sort/Export Options:
+                </span>
+                <div className="sort-group">
+                  <label htmlFor="sortOrder">Sort by:</label>
+                  <select
+                    id="sortOrder"
+                    value={sortOrder}
+                    onChange={(e) => {
+                      const newOrder = e.target.value;
+                      setSortOrder(newOrder);
+                      localStorage.setItem('sortOrder', newOrder);
+                    }}
+                  >
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                  </select>
+                </div>
+                <div className="format-group">
+                  <label htmlFor="exportFormat">Format:</label>
+                  <select
+                    id="exportFormat"
+                    value={exportFormat}
+                    onChange={(e) => {
+                      const format = e.target.value;
+                      setExportFormat(format);
+                      localStorage.setItem('exportFormat', format);
+                    }}
+                  >
+                    <option value="txt">.txt</option>
+                    <option value="md">.md</option>
+                    <option value="pdf">.pdf</option>
+                    <option value="csv">.csv</option>
+                  </select>
+                </div>
+                <button
+                  className="export-all-btn"
+                  onClick={handleExportSelected}
+                  disabled={selectedSummaries.length === 0}
+                  aria-label="Export selected summaries"
+                  aria-disabled={selectedSummaries.length === 0 ? "true" : undefined}
                 >
-                  <option value="txt">.txt</option>
-                  <option value="md">.md</option>
-                  <option value="pdf">.pdf</option>
-                  <option value="csv">.csv</option>
-                </select>
+                  <span aria-hidden="true">📦 Export Selected</span>
+                  <span className="sr-only">Export Selected</span>
+                </button>
               </div>
-              <button
-                className="export-all-btn"
-                onClick={handleExportSelected}
-                disabled={selectedSummaries.length === 0}
-                aria-label="Export selected summaries"
-                aria-disabled={selectedSummaries.length === 0 ? "true" : undefined}
-              >
-                <span aria-hidden="true">📦 Export Selected</span>
-                <span className="sr-only">Export Selected</span>
-              </button>
+              <div className="select-all-row">
+                <label className="select-all-label">
+                  <input
+                    id="selectAllCheckbox"
+                    aria-label="Select all summaries"
+                    aria-labelledby="selectAllCheckbox"
+                    className='select-all-checkbox'
+                    role="checkbox"
+                    aria-checked={selectedSummaries.length === savedSummaries.length && savedSummaries.length > 0 ? "true" : "false"}
+                    type="checkbox"
+                    checked={selectedSummaries.length === savedSummaries.length && savedSummaries.length > 0}
+                    onChange={handleSelectAll}
+                  />{' '}
+                  Select All
+                </label>
+              </div>
+              <ul>
+                {sortedSummaries.map((item, idx) => (
+                  <AccordionItem
+                    key={item.timestamp}
+                    item={item}
+                    idx={idx}
+                    isExpanded={expandedIndex === idx}
+                    onToggle={() => setExpandedIndex(expandedIndex === idx ? null : idx)}
+                    onDelete={() => handleDelete(item.timestamp)}
+                    selected={selectedSummaries.includes(item.timestamp)}
+                    onSelect={handleToggleSelect}
+                    shareMenuIndex={shareMenuIndex}
+                    toggleShareMenu={toggleShareMenu}
+                    setShareMenuIndex={setShareMenuIndex}
+                    toast={toast}
+                  />
+                ))}
+              </ul>
             </div>
-            <div className="select-all-row">
-              <label className="select-all-label">
-                <input
-                  id="selectAllCheckbox"
-                  aria-label="Select all summaries"
-                  aria-labelledby="selectAllCheckbox"
-                  className='select-all-checkbox'
-                  role="checkbox"
-                  aria-checked={selectedSummaries.length === savedSummaries.length && savedSummaries.length > 0 ? "true" : "false"}
-                  type="checkbox"
-                  checked={selectedSummaries.length === savedSummaries.length && savedSummaries.length > 0}
-                  onChange={handleSelectAll}
-                />{' '}
-                Select All
-              </label>
-            </div>
-            <ul>
-              {sortedSummaries.map((item, idx) => (
-                <AccordionItem
-                  key={item.timestamp}
-                  item={item}
-                  idx={idx}
-                  isExpanded={expandedIndex === idx}
-                  onToggle={() => setExpandedIndex(expandedIndex === idx ? null : idx)}
-                  onDelete={() => handleDelete(item.timestamp)}
-                  selected={selectedSummaries.includes(item.timestamp)}
-                  onSelect={handleToggleSelect}
-                  shareMenuIndex={shareMenuIndex}
-                  toggleShareMenu={toggleShareMenu}
-                  setShareMenuIndex={setShareMenuIndex}
-                  toast={toast}
-                />
-              ))}
-            </ul>
-          </div>
-        )}
-      </main>
+          )}
+        </main>
+      )}
     </div>
   );
 }

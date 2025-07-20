@@ -1,5 +1,10 @@
 # 📓 JournalSnap Changelog
 
+### Day 14 - User sign-in through Google and Apple
+- Added Google & Apple sign-ins and save/view summaries under their own account
+- Styling changes
+- Will need to revisit Apple sign-in
+
 ### Day 13 - Deploying to Vercel
 - Added support to host app on Vercel
 - Changed persistent storage to Firestore Database on Firebase
