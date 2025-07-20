@@ -1,5 +1,14 @@
 # 📓 JournalSnap Changelog
 
+### Day 15 - Avoiding prompt injections
+- Moved hardcoded prompt to environment variable
+- Prevent abuse by limiting number of requests per user per minute
+- Make sure notes are limited to 1000 characters on frontend and backend
+- Sanitize user input to remove suspicious text
+- Verify that summary returned by AI has expected format with no suspicious text
+- Improve error logging to include user info, timestamp, and input length
+- Made sure that the app fails gracefully if environment variables are not found
+
 ### Day 14 - User sign-in through Google and Apple
 - Added Google & Apple sign-ins and save/view summaries under their own account
 - Styling changes

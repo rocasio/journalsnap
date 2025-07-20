@@ -39,7 +39,14 @@ export default function InputArea({ notes, setNotes, onSummarize, title, setTitl
           placeholder="Paste your meeting notes, journal entries, or research here…"
           value={notes}
           onChange={e => setNotes(e.target.value)}
+          maxLength={1000}
         />
+        <div
+          className={`char-count${notes.length >= 1000 ? ' char-count-limit' : ''}`}
+          aria-live="polite"
+        >
+          {notes.length} / 1000 characters
+        </div>
       </div>
       <div className="summary-actions-row-main">
         <button 
@@ -47,6 +54,7 @@ export default function InputArea({ notes, setNotes, onSummarize, title, setTitl
           type="submit"
           aria-label="Summarize notes"
           className="summarize-btn"
+          disabled={notes.length === 0}
         >
           Summarize
         </button>
